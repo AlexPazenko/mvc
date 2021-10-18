@@ -1,15 +1,21 @@
 <?php
 namespace App\Models;
+
+
 use PDO;
+
 class Customer
 {
+    private $connection;
 
+    public function __construct()
+    {
+        $db = new DbConnect();
+        $this->connection = $db->getConnection();
+    }
     public function read(int $id)
     {
-
-        $db = new DbConnect();
-        $db = $db->getConnection();
-        $sth = $db->prepare("SELECT supermarket.orders.orderId, supermarket.products.productName, supermarket.products.productPrice,
+        $sth = $this->connection->prepare("SELECT supermarket.orders.orderId, supermarket.products.productName, supermarket.products.productPrice,
                                     supermarket.OrderItems.amount
                                     FROM supermarket.orders 
                                     INNER JOIN supermarket.OrderItems 
@@ -21,9 +27,8 @@ class Customer
                                     INNER JOIN supermarket.customers
                                     ON supermarket.customersOrders.customerId=supermarket.customers.customerId
                                     AND supermarket.customers.customerId = " . $id . " ");
-
         $sth->execute();
-        $orders = $sth->fetchAll(PDO::FETCH_ASSOC);
-        return $orders;
+
+        return $sth->fetchAll(PDO::FETCH_ASSOC);
     }
 }

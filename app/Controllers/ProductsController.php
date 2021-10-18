@@ -10,7 +10,7 @@ class ProductsController
     // Show all products.
     public function showProducts()
     {
-        $products = Products::read();
+        $products = (new Products)->read();
         View::generate('products.php', $products);
 
         /*require_once APP_ROOT . '/views/products.php';*/

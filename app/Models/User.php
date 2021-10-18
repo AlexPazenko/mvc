@@ -9,7 +9,13 @@ class User
     private $firstName;
     private $lastName;
     private $userRole;
+    private $connection;
 
+    public function __construct()
+    {
+        $db = new DbConnect();
+        $this->connection = $db->getConnection();
+    }
 
     // GET METHODS
     public function getFirstName()
@@ -27,14 +33,12 @@ class User
         return $this->userRole;
     }
 
-    public static function read()
+    public function read()
     {
-        $db = new DbConnect();
-        $db = $db->getConnection();
-        $sth = $db->query("SELECT * FROM users");
+        $sth = $this->connection->query("SELECT * FROM users");
         $sth->setFetchMode(PDO::FETCH_CLASS, self::class);
-        $users = $sth->fetchAll();
-        return $users;
-    }
 
+        return $sth->fetchAll();
+    }
 }
+

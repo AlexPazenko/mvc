@@ -1,16 +1,22 @@
 <?php 
 namespace App\Models;
+
+
 use PDO;
+
 class Products
 {
+    private $connection;
 
-	
-	public static function read()
-	{
-
+    public function __construct()
+    {
         $db = new DbConnect();
-        $db = $db->getConnection();
-        $sth = $db->prepare("SELECT supermarket.products.productName, 
+        $this->connection = $db->getConnection();
+    }
+	
+	public function read()
+	{
+        $sth = $this->connection->prepare("SELECT supermarket.products.productName, 
                                    CONCAT(supermarket.users.firstName, ' ', supermarket.users.lastName) AS userСreated
                                    FROM supermarket.products 
                                    LEFT JOIN supermarket.users 
@@ -18,7 +24,7 @@ class Products
                                    WHERE supermarket.users.userId  IS NOT NULL 
                                    ORDER BY supermarket.products.productName;");
         $sth->execute();
-        $products = $sth->fetchAll(PDO::FETCH_ASSOC);
-        return $products;
+
+        return $sth->fetchAll(PDO::FETCH_ASSOC);
 	}
 }
