@@ -4,14 +4,11 @@ namespace App\Models;
 
 use PDO;
 
-class Customer
+class Customer extends DbConnector
 {
-    private $connection;
-
     public function __construct()
     {
-        $db = new DbConnect();
-        $this->connection = $db->getConnection();
+        parent::__construct();
     }
     public function read(int $id)
     {
@@ -32,3 +29,4 @@ class Customer
         return $sth->fetchAll(PDO::FETCH_ASSOC);
     }
 }
+

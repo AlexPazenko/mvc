@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controllers;
 
 use App\Models\Products;
@@ -13,6 +12,5 @@ class ProductsController
         $products = (new Products)->read();
         View::generate('products.php', $products);
 
-        /*require_once APP_ROOT . '/views/products.php';*/
     }
 }

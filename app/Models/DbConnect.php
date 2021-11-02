@@ -10,7 +10,7 @@ class DbConnect
     protected $db_user = DB_USER;
     protected $db_pass = DB_PASS;
     private $db;
-    public function getConnection() {
+    public function getConnection(): PDO {
         if ($this->db) {
             return $this->db;
         }
@@ -20,10 +20,8 @@ class DbConnect
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $exception) {
             throw new \Exception( "Database connection failed: " . $exception->getMessage());
-
         }
 
         return $this->db;
     }
-    
 }

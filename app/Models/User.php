@@ -1,20 +1,18 @@
 <?php
+
 namespace App\Models;
 
-use App\Models\DbConnect;
 use PDO;
 
-class User
+class User extends DbConnector
 {
     private $firstName;
     private $lastName;
     private $userRole;
-    private $connection;
 
     public function __construct()
     {
-        $db = new DbConnect();
-        $this->connection = $db->getConnection();
+        parent::__construct();
     }
 
     // GET METHODS
@@ -35,6 +33,7 @@ class User
 
     public function read()
     {
+        
         $sth = $this->connection->query("SELECT * FROM users");
         $sth->setFetchMode(PDO::FETCH_CLASS, self::class);
 
